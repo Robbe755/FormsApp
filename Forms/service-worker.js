@@ -2,36 +2,40 @@ const CACHE_NAME = 'pwa-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html',
-    '/manifest.json',
     '/styles.css',
+    '/manifest.json',
+    '/icon-192x192.png',
+    '/icon-512x512.png'
 ];
 
-// Install event: Cache files on install
+// Install event: Cache files
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                console.log('Opened cache');
                 return cache.addAll(urlsToCache);
+            })
+            .catch((error) => {
+                console.error('Failed to open cache: ', error);
             })
     );
 });
 
-// Fetch event: Serve cached files when offline
+// Fetch event: Serve files from cache
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((response) => {
-                // If cache hit, return cached file; otherwise, fetch from network
                 return response || fetch(event.request);
-            }).catch(() => {
+            })
+            .catch(() => {
                 // Optional: Return a fallback page when offline and not cached
-                return caches.match('/offline.html');
+                return caches.match('/index.html');
             })
     );
 });
 
-// Activate event: Cleanup old caches
+// Activate event: Clean up old caches
 self.addEventListener('activate', (event) => {
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
