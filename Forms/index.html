@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA test</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script>
+<body>
+    <iframe src="https://forms.office.com/Pages/DesignPageV2.aspx?subpage=design&token=235aade11102479bb130d87a4ecb2d13&id=wJ0JNbjCaUS7aSJ5yu6T-zelt33twMNDt_JxcvVeMvNUQk5ERjlXNjRaNDlUODA5MEFKSU04UlRJTi4u" width="100%" height="1000px"></iframe>
+</body>
+</html>
